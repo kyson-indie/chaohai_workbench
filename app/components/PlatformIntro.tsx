@@ -23,6 +23,7 @@ export default function PlatformIntro() {
       <button
         type="button"
         aria-expanded={false}
+        aria-controls="platform-intro"
         onClick={() => setCollapsed(false)}
         className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-background px-4 py-3 text-left text-sm text-gray-600 transition-colors hover:bg-gray-50"
       >
@@ -33,7 +34,7 @@ export default function PlatformIntro() {
   }
 
   return (
-    <section className="w-full rounded-xl border border-gray-200 bg-background p-4 sm:p-6">
+    <section id="platform-intro" role="region" className="w-full rounded-xl border border-gray-200 bg-background p-4 sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-lg font-bold tracking-tight sm:text-2xl">
@@ -43,6 +44,7 @@ export default function PlatformIntro() {
         <button
           type="button"
           aria-expanded={true}
+          aria-controls="platform-intro"
           onClick={() => setCollapsed(true)}
           className="shrink-0 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-500 transition-colors hover:bg-gray-50 sm:text-sm"
         >
