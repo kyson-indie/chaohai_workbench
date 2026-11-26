@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
-/** 登录页：标题 + 飞书登录按钮。已登录用户直接进欢迎页。 */
+/** 登录页：标题 + 飞书登录按钮。已登录用户直接进工作主页。 */
 
 const ERROR_TEXT: Record<string, string> = {
   not_configured: "系统尚未完成飞书应用配置，请联系管理员在服务器上填写应用凭证",
@@ -15,7 +15,7 @@ export default async function LoginPage({
 }: {
   searchParams: { error?: string };
 }) {
-  if (await getSessionUser()) redirect("/welcome");
+  if (await getSessionUser()) redirect("/home");
 
   const errorText = searchParams.error ? (ERROR_TEXT[searchParams.error] ?? decodeURIComponent(searchParams.error)) : null;
 
