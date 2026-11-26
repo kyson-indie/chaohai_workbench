@@ -1,15 +1,17 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/session";
+import PlatformIntro from "@/app/components/PlatformIntro";
 
 export const dynamic = "force-dynamic";
 
-/** 欢迎页：登录成功后展示当前飞书账号昵称与头像 */
+/** 欢迎页：登录成功后展示平台介绍与当前飞书账号昵称与头像 */
 export default async function WelcomePage() {
   const user = await getSessionUser();
   if (!user) redirect("/login");
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-gray-50 px-4">
+    <main className="flex min-h-screen flex-col items-center gap-6 bg-gray-50 px-4 py-6">
+      <PlatformIntro />
       <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">潮海顾问工作台</h1>
 
