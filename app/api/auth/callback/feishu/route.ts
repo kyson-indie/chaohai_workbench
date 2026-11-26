@@ -65,7 +65,7 @@ export async function GET(request: Request) {
     ).run(userId, user.unionId, user.tenantKey);
 
     const token = createSession(userId);
-    const res = NextResponse.redirect(`${baseUrl}/welcome`);
+    const res = NextResponse.redirect(`${baseUrl}/home`);
     setSessionCookie(token);
     return res;
   } catch (e) {
