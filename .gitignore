@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 运行时部署产物（版本文件/日志/PID/锁）
+/.build-info
+/.deploy.log
+/.health.log
+/.deploy.lock
+/.next-server.log
+/.next-server.pid
