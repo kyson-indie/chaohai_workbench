@@ -31,6 +31,19 @@ sudo bash deploy/setup.sh          # 首次部署：装 Node/pm2、构建、启�
 sudo bash deploy/setup.sh update   # 拉取最新 main、重新构建并重启
 ```
 
+## 每周一 10 点 C360 维护提醒（交接模块）
+
+提醒通过服务器 crontab 在每周一 10:00 调用本机接口生成（站内提醒，非飞书消息）。首次部署后在服务器上执行一次：
+
+```bash
+# 安装 cron（已装则跳过）
+( crontab -l 2>/dev/null; echo "0 10 * * 1 curl -s -X POST http://127.0.0.1:3000/api/handover/reminders/c360" ) | crontab -
+```
+
+说明：
+- 接口幂等：同一天同一 CSM 同一项目只生成一条提醒，重复调用无副作用
+- 未配置 cron 时仅表现为无提醒，不影响其他功能；非周一也可手动 `curl -X POST` 触发生成
+
 ## 开启 HTTPS（DNS 生效后执行一次）
 
 ```bash
