@@ -30,17 +30,28 @@ REMOTE=$(git rev-parse origin/main)
 # 只统计「远端有、本地没有」的提交；本地领先远端（如脚本刚提交未推送）不算新版本
 NEW_COUNT=$(git rev-list --count HEAD..origin/main)
 
-if [ "$NEW_COUNT" -eq 0 ]; then
+# 上次成功构建的版本（.build-info 的 commit）：HEAD 已前进但从未成功构建过
+# （如上次构建失败遗留）时，即使无新提交也要重新构建，否则该提交会被永久跳过
+BUILT_COMMIT=""
+if [ -f ".build-info" ]; then
+  BUILT_COMMIT=$(sed -n 's/.*"commit":"\([0-9a-f]*\)".*/\1/p' .build-info)
+fi
+
+if [ "$NEW_COUNT" -eq 0 ] && [ "$BUILT_COMMIT" = "$LOCAL" ]; then
   echo "$LOG_TAG 已是最新 ($LOCAL)，无需更新"
   exit 0
 fi
 
-echo "$LOG_TAG 发现新提交 $LOCAL → $REMOTE，开始更新"
+if [ "$NEW_COUNT" -gt 0 ]; then
+  echo "$LOG_TAG 发现新提交 $LOCAL → $REMOTE，开始更新"
 
-# ---------- 2. ff-only 合并（本地有冲突改动则中止，不动线上） ----------
-if ! git merge --ff-only origin/main; then
-  echo "$LOG_TAG 本地有未提交改动阻碍合并，中止本次更新（服务未受影响）"
-  exit 1
+  # ---------- 2. ff-only 合并（本地有冲突改动则中止，不动线上） ----------
+  if ! git merge --ff-only origin/main; then
+    echo "$LOG_TAG 本地有未提交改动阻碍合并，中止本次更新（服务未受影响）"
+    exit 1
+  fi
+else
+  echo "$LOG_TAG 本地版本尚未成功构建（$BUILT_COMMIT → $LOCAL），重试构建"
 fi
 
 # ---------- 3. 构建（失败则保持旧构建继续跑） ----------
