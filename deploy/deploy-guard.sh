@@ -14,8 +14,8 @@ APP_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$APP_DIR"
 export PATH="/usr/local/node20/bin:$PATH"
 
-# 允许的延迟：auto-update */5 分钟一跑，给 3 个周期余量（含构建耗时）
-DELAY_MIN=15
+# 允许的延迟：auto-update */5 分钟一跑，用户要求最多等 3 分钟 → 3 分钟即介入
+DELAY_MIN=3
 # 告警去重：同一天最多告一次
 STATE_FILE=".deploy-guard-state"
 WEBHOOK_FILE="deploy/.alert-webhook"

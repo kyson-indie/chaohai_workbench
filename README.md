@@ -10,7 +10,7 @@
 
 每分钟执行 `deploy/deploy-guard.sh`，三层防护：
 
-1. **滞后自愈**：GitHub main 有新提交但线上 `/api/version` 落后超过 15 分钟 → 自动再触发一次 `auto-update.sh`（覆盖构建偶发失败、cron 抖动等场景）；
+1. **滞后自愈**：GitHub main 有新提交但线上 `/api/version` 落后超过 3 分钟 → 自动再触发一次 `auto-update.sh`（覆盖构建偶发失败、cron 抖动等场景）；
 2. **飞书告警**：自愈后仍不一致 → 向 `deploy/.alert-webhook` 里配置的飞书群机器人 webhook 发告警（每天最多一条，不轰炸）。**部署完新环境后记得把群机器人 webhook 地址写进该文件（仅第一行）**；
 3. **未推送提醒**：服务器上有已提交未 push 的 commit（线上领先远端）→ 当天提醒一次尽快推送。
 
