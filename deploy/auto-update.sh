@@ -6,6 +6,11 @@ set -uo pipefail
 
 APP_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$APP_DIR"
+
+# cron 的精简环境不含自定义 PATH（node/npm 装在 /usr/local/node20/bin），
+# 不补齐会导致 "npm: command not found"、构建永远失败，线上停留在旧版本
+export PATH="/usr/local/node20/bin:$PATH"
+
 LOCK_FILE=".deploy.lock"
 LOG_TAG="[auto-update $(date '+%F %T')]"
 
