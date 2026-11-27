@@ -37,7 +37,7 @@ sudo bash deploy/setup.sh update   # 拉取最新 main、重新构建并重启
 
 ```bash
 # 安装 cron（已装则跳过）
-( crontab -l 2>/dev/null; echo "0 10 * * 1 curl -s -X POST http://127.0.0.1:3100/api/handover/reminders/c360" ) | crontab -
+( crontab -l 2>/dev/null; echo "0 10 * * 1 curl -s -X POST http://127.0.0.1:3000/api/handover/reminders/c360" ) | crontab -
 ```
 
 说明：

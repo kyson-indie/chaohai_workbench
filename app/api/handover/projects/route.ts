@@ -5,19 +5,6 @@ import { listHandoverProjects, type HandoverProjectRow } from "@/lib/handover";
 
 export const dynamic = "force-dynamic";
 
-/** 主数据可编辑字段（补充信息区，均非必填） */
-const TEXT_FIELDS = [
-  "feishu_edition",
-  "expiry_date",
-  "contact_persons",
-  "key_decision_makers",
-  "ai_usage",
-  "usage_scenes",
-  "potential_risks",
-  "pending_todos",
-] as const;
-const INT_FIELDS = ["seat_count", "mau"] as const;
-
 export interface ProjectCreateInput {
   company_name?: string;
   feishu_edition?: string;
@@ -84,5 +71,3 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "未登录" }, { status: 401 });
   return NextResponse.json({ projects: listHandoverProjects() });
 }
-
-export { TEXT_FIELDS, INT_FIELDS };

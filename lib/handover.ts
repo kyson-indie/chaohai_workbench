@@ -240,8 +240,8 @@ export function loadInfoOfCsm(csmUserId: number): LoadInfo {
 // ---------- 站内提醒（DES-009） ----------
 
 /**
- * 生成每周 C360 维护提醒：对「已进入交接流程（service_started_at 非空或已分配 CSM）」
- * 的项目，向其 CSM 写入站内提醒。幂等：同 user+project+当日只生成一条。
+ * 生成每周 C360 维护提醒：对已分配 CSM（即已进入交接流程）的项目，
+ * 向其 CSM 写入站内提醒。幂等：同 user+project+当日只生成一条。
  * 返回各 CSM 新生成的提醒（按用户合并展示用）。
  */
 export function generateC360Reminders(): { userId: number; userName: string; projects: string[] }[] {
@@ -254,7 +254,7 @@ export function generateC360Reminders(): { userId: number; userName: string; pro
     .prepare(
       `SELECT p.id AS project_id, p.company_name, u.id AS user_id, u.name AS user_name
        FROM handover_projects p JOIN users u ON u.id = p.csm_user_id
-       WHERE p.csm_user_id IS NOT NULL OR p.service_started_at IS NOT NULL
+       WHERE p.csm_user_id IS NOT NULL
        ORDER BY u.id, p.id`
     )
     .all() as { project_id: number; company_name: string; user_id: number; user_name: string }[];
